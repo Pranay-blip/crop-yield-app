@@ -1,13 +1,17 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { InputForm } from "../components/predict/InputForm";
 import { PredictionCard } from "../components/predict/PredictionCard";
 import { WhatIfExplorer } from "../components/predict/WhatIfExplorer";
+import { EconomicsPanelFull } from "../components/predict/EconomicsPanel";
 import { postPredict } from "../api/client";
 
 export default function PredictPage() {
-  const [result, setResult]     = useState(null);
-  const [loading, setLoading]   = useState(false);
+  const [result, setResult]         = useState(null);
+  const [loading, setLoading]       = useState(false);
   const [lastInputs, setLastInputs] = useState(null);
+  const [selectedCrop, setSelectedCrop] = useState(null);
+  const [area, setArea]             = useState(null);
+  const [fertilizer, setFertilizer] = useState(null);
 
   async function handleSubmit(values, showAdvanced) {
     setLoading(true);
@@ -26,6 +30,9 @@ export default function PredictPage() {
         if (payload[k] != null) required[k] = payload[k];
       });
       setLastInputs(required);
+      setSelectedCrop(payload.Crop ?? null);
+      setArea(Number(payload.Area) || null);
+      setFertilizer(Number(payload.Fertilizer) || null);
     } finally {
       setLoading(false);
     }
@@ -71,6 +78,14 @@ export default function PredictPage() {
 
       {/* What-if always below */}
       <WhatIfExplorer lastInputs={lastInputs} />
+
+      {/* Profitability panel */}
+      <EconomicsPanelFull
+        result={result}
+        selectedCrop={selectedCrop}
+        area={area}
+        fertilizer={fertilizer}
+      />
     </>
   );
 }

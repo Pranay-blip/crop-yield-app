@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getModelInfo } from "../api/client";
 
 export default function AboutPage() {
@@ -137,17 +137,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Limitations */}
-      <div className="card" style={{ marginBottom: 8 }}>
-        <div className="card-header"><span className="card-title">⚠️ Limitations</span></div>
-        <ul style={{ display: "flex", flexDirection: "column", gap: 10, paddingLeft: 20, fontSize: ".85rem", color: "var(--text-muted)" }}>
-          <li>This is a <strong>historical pattern model</strong>, not a precision farming tool. Do not use predictions for planting or trade decisions.</li>
-          <li>The <strong>t/ha unit is approximate</strong> — it assumes Production ÷ Area; some crops may use different units in the source data.</li>
-          <li>PSO-ANN's single-run advantage over Baseline ANN is <strong>not statistically significant</strong> across 5 seeds. Both are effectively tied.</li>
-          <li>Feature importance is dominated by Crop (~75%) and State (~12%). Inputs like Area, Fertilizer, and Year move predictions only modestly.</li>
-          <li>The model covers 1997–2020. Predictions outside this range are extrapolations and carry higher uncertainty.</li>
-        </ul>
-      </div>
     </>
   );
 }

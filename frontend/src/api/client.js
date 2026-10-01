@@ -15,3 +15,5 @@ export const getTestPredictions = ()        => api.get("/test-predictions");
 export const getModelInfo       = ()        => api.get("/model-info");
 
 export default api;
+export const getCropPrices    = ()     => api.get("/crop-prices");
+export const postCompareCrops = (body) => api.post("/compare-crops", body);

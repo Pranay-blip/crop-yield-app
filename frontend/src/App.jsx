@@ -1,14 +1,16 @@
-﻿import { useState, useEffect, useCallback } from "react";
-import { Sprout, BarChart2, GitBranch, Info, Sun, Moon } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Sprout, BarChart2, GitBranch, Info, Sun, Moon, IndianRupee } from "lucide-react";
 import PredictPage from "./pages/PredictPage";
 import ModelComparisonPage from "./pages/ModelComparisonPage";
 import PsoSearchPage from "./pages/PsoSearchPage";
 import AboutPage from "./pages/AboutPage";
+import CropRankerPage from "./pages/CropRankerPage";
 
 const TABS = [
   { id: "predict",  label: "Predict",          icon: Sprout },
   { id: "compare",  label: "Model Comparison",  icon: BarChart2 },
   { id: "pso",      label: "PSO Search",         icon: GitBranch },
+  { id: "ranker",   label: "Crop Ranker",        icon: IndianRupee },
   { id: "about",    label: "About / SDG",        icon: Info },
 ];
 
@@ -32,6 +34,7 @@ export default function App() {
     tab === "predict" ? PredictPage
     : tab === "compare" ? ModelComparisonPage
     : tab === "pso"     ? PsoSearchPage
+    : tab === "ranker"  ? CropRankerPage
     : AboutPage;
 
   return (

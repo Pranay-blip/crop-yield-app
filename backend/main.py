@@ -1,4 +1,4 @@
-﻿"""
+"""
 FastAPI backend for the Crop Yield Prediction app.
 
 Wraps predictor.YieldPredictor with REST endpoints.  The predictor is
@@ -13,6 +13,70 @@ from __future__ import annotations
 import logging
 from contextlib import asynccontextmanager
 from typing import Any
+
+# ---------------------------------------------------------------------------
+# Static crop market prices (India MSP / market averages, 2019-20 season)
+# Source: CACP MSP 2019-20; non-MSP crops use published market averages.
+# All values in ₹ per metric ton.
+# ---------------------------------------------------------------------------
+CROP_PRICES: dict[str, int] = {
+    "Arecanut":               350000,
+    "Bajra":                   20900,
+    "Banana":                  20000,
+    "Barley":                  16350,
+    "Black pepper":           350000,
+    "Cardamom":               800000,
+    "Cashewnut":              100000,
+    "Castor seed":             51000,
+    "Coriander":               63100,
+    "Cotton(lint)":            55000,
+    "Cowpea(Lobia)":           50000,
+    "Dry chillies":           120000,
+    "Garlic":                  30000,
+    "Ginger":                  45000,
+    "Gram":                    48750,
+    "Groundnut":               50900,
+    "Guar seed":               44880,
+    "Horse-gram":              40000,
+    "Jowar":                   25500,
+    "Jute":                    39500,
+    "Khesari":                 30000,
+    "Linseed":                 46000,
+    "Maize":                   17600,
+    "Masoor":                  44750,
+    "Mesta":                   35000,
+    "Moong(Green Gram)":       71960,
+    "Moth":                    40000,
+    "Niger seed":              57650,
+    "Oilseeds total":          50000,
+    "Onion":                   20000,
+    "Other  Rabi pulses":      40000,
+    "Other Cereals":           20000,
+    "Other Kharif pulses":     50000,
+    "Other Summer Pulses":     50000,
+    "Peas & beans (Pulses)":   50000,
+    "Potato":                  12000,
+    "Ragi":                    32950,
+    "Rapeseed &Mustard":       44250,
+    "Rice":                    18150,
+    "Safflower":               49450,
+    "Sannhamp":                35000,
+    "Sesamum":                 64850,
+    "Small millets":           20000,
+    "Soyabean":                37100,
+    "Sugarcane":                2850,
+    "Sunflower":               58650,
+    "Sweet potato":            10000,
+    "Tapioca":                  4000,
+    "Tobacco":                175000,
+    "Turmeric":                85000,
+    "Urad":                    60000,
+    "Wheat":                   19250,
+    "other oilseeds":          50000,
+}
+
+DEFAULT_FERTILIZER_COST_PER_KG = 15.0   # ₹/kg blended NPK average
+DEFAULT_OTHER_COST_PER_HA      = 12000.0 # ₹/ha  (seed + labour + irrigation)
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -90,6 +154,17 @@ class WhatIfRequest(BaseModel):
     feature: str
     values: list[Any] | None = None
     n: int = 25
+
+
+class CompareCropsRequest(BaseModel):
+    """Body for POST /compare-crops.
+    Send the 5 non-Crop required fields; the endpoint iterates over all crops.
+    Optional overrides for cost assumptions.
+    """
+    inputs: dict[str, Any]                        # must include Season, State, Crop_Year, Area, Fertilizer
+    fertilizer_cost_per_kg: float = DEFAULT_FERTILIZER_COST_PER_KG
+    other_cost_per_ha:      float = DEFAULT_OTHER_COST_PER_HA
+    custom_prices:          dict[str, float] | None = None  # override per-crop price
 
 
 # ---------------------------------------------------------------------------
@@ -172,3 +247,90 @@ def model_info():
     """Summary of training config: trained_at, row counts, selected features,
     hyperparameters, PSO settings, and interval metadata."""
     return predictor.model_info()
+
+
+# ---------------------------------------------------------------------------
+# Profitability endpoints
+# ---------------------------------------------------------------------------
+@app.get("/crop-prices", tags=["Economics"])
+def crop_prices():
+    """Return the static crop market price table (₹/ton, India MSP 2019-20).
+    Also returns default cost assumptions used by /compare-crops."""
+    return {
+        "prices": CROP_PRICES,
+        "unit": "INR_per_ton",
+        "defaults": {
+            "fertilizer_cost_per_kg": DEFAULT_FERTILIZER_COST_PER_KG,
+            "other_cost_per_ha":      DEFAULT_OTHER_COST_PER_HA,
+        },
+        "note": "Prices are indicative MSP / market averages for 2019-20. Override via /compare-crops custom_prices.",
+    }
+
+
+@app.post("/compare-crops", tags=["Economics"])
+def compare_crops(body: CompareCropsRequest):
+    """Predict yield for EVERY crop under fixed Season/State/Year/Area/Fertilizer,
+    then compute gross revenue, costs, and net profit for each.
+    Returns results ranked by net profit descending.
+    """
+    schema = predictor.schema()
+    all_crops = next(
+        (f["options"] for f in schema["required"] if f["name"] == "Crop"), []
+    )
+
+    area       = float(body.inputs.get("Area", 0) or 0)
+    fertilizer = float(body.inputs.get("Fertilizer", 0) or 0)
+    fert_cost  = body.fertilizer_cost_per_kg
+    other_cost = body.other_cost_per_ha
+    prices     = {**CROP_PRICES, **(body.custom_prices or {})}
+
+    fertilizer_spend = fertilizer * fert_cost
+    other_spend      = area * other_cost
+    total_fixed_cost = fertilizer_spend + other_spend
+
+    results = []
+    for crop in all_crops:
+        try:
+            row = {**body.inputs, "Crop": crop}
+            pred = predictor.predict(row)
+            yield_per_ha       = pred["prediction"]
+            total_production   = yield_per_ha * area
+            price_per_ton      = prices.get(crop, 20000)
+            gross_revenue      = total_production * price_per_ton
+            net_profit         = gross_revenue - total_fixed_cost
+            roi_pct            = (net_profit / total_fixed_cost * 100) if total_fixed_cost > 0 else 0
+            breakeven_yield    = (total_fixed_cost / (area * price_per_ton)) if (area * price_per_ton) > 0 else 0
+            results.append({
+                "crop":               crop,
+                "yield_per_ha":       round(yield_per_ha, 3),
+                "total_production":   round(total_production, 1),
+                "price_per_ton":      price_per_ton,
+                "gross_revenue":      round(gross_revenue, 0),
+                "fertilizer_spend":   round(fertilizer_spend, 0),
+                "other_spend":        round(other_spend, 0),
+                "total_cost":         round(total_fixed_cost, 0),
+                "net_profit":         round(net_profit, 0),
+                "roi_pct":            round(roi_pct, 1),
+                "breakeven_yield":    round(breakeven_yield, 3),
+                "interval":           pred["interval"],
+                "rating":             pred["rating"],
+                "warnings":           pred["warnings"],
+            })
+        except Exception:
+            # Skip crops the model cannot handle
+            pass
+
+    results.sort(key=lambda r: r["net_profit"], reverse=True)
+    for i, r in enumerate(results):
+        r["rank"] = i + 1
+
+    return {
+        "results": results,
+        "area":              area,
+        "fertilizer":        fertilizer,
+        "fertilizer_spend":  round(fertilizer_spend, 0),
+        "other_spend":       round(other_spend, 0),
+        "total_fixed_cost":  round(total_fixed_cost, 0),
+        "unit":              "INR",
+        "yield_unit":        "t/ha",
+    }

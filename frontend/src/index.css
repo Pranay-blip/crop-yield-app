@@ -657,3 +657,243 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
 /* ---------- Current-value marker on charts ---------- */
 .chart-note { font-size: .75rem; color: var(--text-muted); margin-top: 6px; }
+
+
+/* ============================================================
+   Economics Panel & Crop Ranker — Additional Styles
+   ============================================================ */
+
+/* ── Cost input row ── */
+.cost-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cost-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cost-input-wrap .form-label { margin-bottom: 0; }
+
+.cost-input-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cost-prefix {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  font-size: .85rem;
+  pointer-events: none;
+}
+
+.cost-input-inner .form-control { padding-left: 22px; }
+
+/* ── Stat cards ── */
+.stat-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-card-label {
+  font-size: .7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-faint);
+}
+
+.stat-card-value {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.stat-card-sub {
+  font-size: .7rem;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.stat-card.profit-pos {
+  border-color: rgba(34,197,94,.35);
+  background: rgba(34,197,94,.05);
+}
+.stat-card.profit-pos .stat-card-value { color: var(--accent); }
+
+.stat-card.profit-neg {
+  border-color: rgba(239,68,68,.35);
+  background: rgba(239,68,68,.05);
+}
+.stat-card.profit-neg .stat-card-value { color: var(--accent-danger); }
+
+/* ── Break-even row ── */
+.breakeven-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: .82rem;
+  flex-wrap: wrap;
+}
+
+.breakeven-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+}
+.breakeven-pill.ok   { background: rgba(34,197,94,.15); color: var(--accent); }
+.breakeven-pill.warn { background: rgba(245,158,11,.15); color: var(--accent-warn); }
+.breakeven-pill.bad  { background: rgba(239,68,68,.15);  color: var(--accent-danger); }
+
+/* ── Crop Ranker page ── */
+.ranker-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.ranker-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--transition);
+  border-radius: var(--r-sm);
+}
+.ranker-bar-row:hover { background: var(--bg-hover); }
+.ranker-bar-row.current-crop { background: rgba(34,197,94,.07); }
+
+.ranker-rank {
+  width: 26px;
+  text-align: right;
+  font-size: .75rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.ranker-rank.gold   { color: #f59e0b; font-weight: 700; }
+.ranker-rank.silver { color: #94a3b8; font-weight: 700; }
+.ranker-rank.bronze { color: #b45309; font-weight: 700; }
+
+.ranker-crop-name {
+  width: 130px;
+  font-size: .8rem;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.ranker-bar-track {
+  flex: 1;
+  height: 18px;
+  background: var(--bg-elevated);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ranker-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .6s cubic-bezier(.22,1,.36,1);
+}
+
+.ranker-profit-label {
+  width: 90px;
+  text-align: right;
+  font-size: .75rem;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.ranker-roi {
+  width: 52px;
+  text-align: right;
+  font-size: .7rem;
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.ranker-sort-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+/* ── Detail drawer (shown on crop click) ── */
+.detail-drawer {
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  animation: fadeIn .2s ease;
+}
+
+.detail-drawer h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.detail-cell {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+}
+.detail-cell-label { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-faint); margin-bottom: 3px; }
+.detail-cell-value { font-family: var(--font-mono); font-size: .85rem; color: var(--text-primary); }
+
+/* ── Source note ── */
+.price-source-note {
+  font-size: .7rem;
+  color: var(--text-faint);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .ranker-layout { grid-template-columns: 1fr; }
+  .stat-cards-row { grid-template-columns: 1fr 1fr; }
+  .ranker-crop-name { width: 90px; }
+  .ranker-roi { display: none; }
+}
