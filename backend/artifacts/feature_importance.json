@@ -1,0 +1,26 @@
+[
+  {
+    "feature": "Crop",
+    "importance_pct": 74.90273828238666
+  },
+  {
+    "feature": "State",
+    "importance_pct": 12.57518271554247
+  },
+  {
+    "feature": "Fertilizer",
+    "importance_pct": 3.4300098342552143
+  },
+  {
+    "feature": "Season",
+    "importance_pct": 3.3222984980691734
+  },
+  {
+    "feature": "Area",
+    "importance_pct": 3.2155677087398953
+  },
+  {
+    "feature": "Crop_Year",
+    "importance_pct": 2.554202961006583
+  }
+]

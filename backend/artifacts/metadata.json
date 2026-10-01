@@ -1,0 +1,627 @@
+{
+  "trained_at": "2026-09-30T10:14:51+00:00",
+  "target": "Yield",
+  "unit": "t/ha",
+  "target_transform": "log1p",
+  "rows": {
+    "total": 19412,
+    "train": 13588,
+    "val": 2912,
+    "test": 2912
+  },
+  "features": {
+    "all": [
+      "Crop",
+      "Season",
+      "State",
+      "Crop_Year",
+      "Area",
+      "Annual_Rainfall",
+      "Fertilizer",
+      "Pesticide"
+    ],
+    "selected": [
+      "Crop",
+      "Season",
+      "State",
+      "Crop_Year",
+      "Area",
+      "Fertilizer"
+    ],
+    "dropped_by_pso": [
+      "Annual_Rainfall",
+      "Pesticide"
+    ],
+    "categorical": [
+      "Crop",
+      "Season",
+      "State"
+    ],
+    "numeric": [
+      "Crop_Year",
+      "Area",
+      "Annual_Rainfall",
+      "Fertilizer",
+      "Pesticide"
+    ]
+  },
+  "numeric": {
+    "Crop_Year": {
+      "min": 1997.0,
+      "max": 2020.0,
+      "p5": 1998.0,
+      "p95": 2019.0,
+      "mean": 2009.1218318565836,
+      "median": 2010.0,
+      "integer": true,
+      "step": 1,
+      "non_negative": true
+    },
+    "Area": {
+      "min": 0.5,
+      "max": 50808100.0,
+      "p5": 43.0,
+      "p95": 803160.1500000001,
+      "mean": 180483.4436280136,
+      "median": 9299.0,
+      "integer": false,
+      "step": 8000.0,
+      "non_negative": true
+    },
+    "Annual_Rainfall": {
+      "min": 301.3,
+      "max": 6552.7,
+      "p5": 539.5300000000008,
+      "p95": 3030.9,
+      "mean": 1435.2531965762003,
+      "median": 1247.0,
+      "integer": false,
+      "step": 25.0,
+      "non_negative": true
+    },
+    "Fertilizer": {
+      "min": 54.17,
+      "max": 4835406877.0,
+      "p5": 5669.1655,
+      "p95": 105259071.54000002,
+      "mean": 24175013.855320867,
+      "median": 1228930.98,
+      "integer": false,
+      "step": 1100000.0,
+      "non_negative": true
+    },
+    "Pesticide": {
+      "min": 0.09,
+      "max": 15750511.0,
+      "p5": 11.0,
+      "p95": 215735.67600000012,
+      "mean": 49001.19304486245,
+      "median": 2415.495,
+      "integer": false,
+      "step": 2200.0,
+      "non_negative": true
+    }
+  },
+  "categorical": {
+    "Crop": [
+      "Arecanut",
+      "Arhar/Tur",
+      "Bajra",
+      "Banana",
+      "Barley",
+      "Black pepper",
+      "Cardamom",
+      "Cashewnut",
+      "Castor seed",
+      "Coriander",
+      "Cotton(lint)",
+      "Cowpea(Lobia)",
+      "Dry chillies",
+      "Garlic",
+      "Ginger",
+      "Gram",
+      "Groundnut",
+      "Guar seed",
+      "Horse-gram",
+      "Jowar",
+      "Jute",
+      "Khesari",
+      "Linseed",
+      "Maize",
+      "Masoor",
+      "Mesta",
+      "Moong(Green Gram)",
+      "Moth",
+      "Niger seed",
+      "Oilseeds total",
+      "Onion",
+      "Other  Rabi pulses",
+      "Other Cereals",
+      "Other Kharif pulses",
+      "Other Summer Pulses",
+      "Peas & beans (Pulses)",
+      "Potato",
+      "Ragi",
+      "Rapeseed &Mustard",
+      "Rice",
+      "Safflower",
+      "Sannhamp",
+      "Sesamum",
+      "Small millets",
+      "Soyabean",
+      "Sugarcane",
+      "Sunflower",
+      "Sweet potato",
+      "Tapioca",
+      "Tobacco",
+      "Turmeric",
+      "Urad",
+      "Wheat",
+      "other oilseeds"
+    ],
+    "Season": [
+      "Autumn",
+      "Kharif",
+      "Rabi",
+      "Summer",
+      "Whole Year",
+      "Winter"
+    ],
+    "State": [
+      "Andhra Pradesh",
+      "Arunachal Pradesh",
+      "Assam",
+      "Bihar",
+      "Chhattisgarh",
+      "Delhi",
+      "Goa",
+      "Gujarat",
+      "Haryana",
+      "Himachal Pradesh",
+      "Jammu and Kashmir",
+      "Jharkhand",
+      "Karnataka",
+      "Kerala",
+      "Madhya Pradesh",
+      "Maharashtra",
+      "Manipur",
+      "Meghalaya",
+      "Mizoram",
+      "Nagaland",
+      "Odisha",
+      "Puducherry",
+      "Punjab",
+      "Sikkim",
+      "Tamil Nadu",
+      "Telangana",
+      "Tripura",
+      "Uttar Pradesh",
+      "Uttarakhand",
+      "West Bengal"
+    ]
+  },
+  "categorical_defaults": {
+    "Crop": "Rice",
+    "Season": "Kharif",
+    "State": "Karnataka"
+  },
+  "crop_stats": {
+    "__overall__": {
+      "mean": 4.433878610049299,
+      "median": 1.0275,
+      "p25": 0.60138392825,
+      "p75": 2.33576298725,
+      "n": 19412
+    },
+    "Arecanut": {
+      "mean": 2.0995558802,
+      "median": 1.294545455,
+      "p25": 0.9582763977500001,
+      "p75": 1.75625,
+      "n": 160
+    },
+    "Arhar/Tur": {
+      "mean": 0.967347756984252,
+      "median": 0.7785855265,
+      "p25": 0.62010416675,
+      "p75": 0.9952028509999999,
+      "n": 508
+    },
+    "Bajra": {
+      "mean": 2.427462006456107,
+      "median": 1.0359375,
+      "p25": 0.6940454545,
+      "p75": 1.71130952375,
+      "n": 524
+    },
+    "Banana": {
+      "mean": 27.07212479111112,
+      "median": 17.95652174,
+      "p25": 12.279545455000001,
+      "p75": 41.13558069,
+      "n": 243
+    },
+    "Barley": {
+      "mean": 1.5955400493097645,
+      "median": 1.371714286,
+      "p25": 0.98,
+      "p75": 2.026626506,
+      "n": 297
+    },
+    "Black pepper": {
+      "mean": 0.8296046303571429,
+      "median": 0.5171428570000001,
+      "p25": 0.2223214285,
+      "p75": 0.98,
+      "n": 126
+    },
+    "Cardamom": {
+      "mean": 0.17066150647945208,
+      "median": 0.078,
+      "p25": 0.0625,
+      "p75": 0.11,
+      "n": 73
+    },
+    "Cashewnut": {
+      "mean": 3.167717508234848,
+      "median": 0.465,
+      "p25": 0.34446759225,
+      "p75": 0.712878788,
+      "n": 132
+    },
+    "Castor seed": {
+      "mean": 0.6936094939966667,
+      "median": 0.59,
+      "p25": 0.37570000000000003,
+      "p75": 0.85985054375,
+      "n": 300
+    },
+    "Coriander": {
+      "mean": 0.651473972409091,
+      "median": 0.482078853,
+      "p25": 0.30566860475,
+      "p75": 0.6358125,
+      "n": 198
+    },
+    "Cotton(lint)": {
+      "mean": 1.808441861832981,
+      "median": 1.435,
+      "p25": 0.75,
+      "p75": 2.21,
+      "n": 473
+    },
+    "Cowpea(Lobia)": {
+      "mean": 0.8318473701755725,
+      "median": 0.768518519,
+      "p25": 0.440247253,
+      "p75": 1.1250694445,
+      "n": 131
+    },
+    "Dry chillies": {
+      "mean": 2.078329703491647,
+      "median": 1.012857143,
+      "p25": 0.7738888884999999,
+      "p75": 2.5680555555,
+      "n": 419
+    },
+    "Garlic": {
+      "mean": 4.581538254943549,
+      "median": 3.45685,
+      "p25": 1.44740625,
+      "p75": 5.8242007675,
+      "n": 248
+    },
+    "Ginger": {
+      "mean": 6.482339900791278,
+      "median": 4.981818182,
+      "p25": 1.684285714,
+      "p75": 8.910833333,
+      "n": 321
+    },
+    "Gram": {
+      "mean": 0.8782612836993865,
+      "median": 0.819285714,
+      "p25": 0.6,
+      "p75": 1.025833333,
+      "n": 489
+    },
+    "Groundnut": {
+      "mean": 1.360983478711724,
+      "median": 1.195,
+      "p25": 0.945,
+      "p75": 1.675,
+      "n": 725
+    },
+    "Guar seed": {
+      "mean": 0.9830840198524592,
+      "median": 0.812641509,
+      "p25": 0.708,
+      "p75": 0.86,
+      "n": 61
+    },
+    "Horse-gram": {
+      "mean": 0.4704300469041096,
+      "median": 0.428333333,
+      "p25": 0.318965517,
+      "p75": 0.571724138,
+      "n": 365
+    },
+    "Jowar": {
+      "mean": 1.0724982779980505,
+      "median": 0.97952381,
+      "p25": 0.7376,
+      "p75": 1.293846154,
+      "n": 513
+    },
+    "Jute": {
+      "mean": 8.238108903939757,
+      "median": 8.355138889,
+      "p25": 5.546875,
+      "p75": 10.385555555,
+      "n": 166
+    },
+    "Khesari": {
+      "mean": 0.7889407394533334,
+      "median": 0.792758621,
+      "p25": 0.6234999999999999,
+      "p75": 0.9314596275,
+      "n": 75
+    },
+    "Linseed": {
+      "mean": 0.47702807683986925,
+      "median": 0.442708333,
+      "p25": 0.31541666675,
+      "p75": 0.59979166675,
+      "n": 306
+    },
+    "Maize": {
+      "mean": 3.4307346796899383,
+      "median": 1.9560606059999999,
+      "p25": 1.46982142825,
+      "p75": 2.77494047625,
+      "n": 974
+    },
+    "Masoor": {
+      "mean": 0.7031530066604939,
+      "median": 0.705,
+      "p25": 0.52569047625,
+      "p75": 0.82916666675,
+      "n": 324
+    },
+    "Mesta": {
+      "mean": 5.467307927874396,
+      "median": 5.216923077,
+      "p25": 2.0745,
+      "p75": 8.151875,
+      "n": 207
+    },
+    "Moong(Green Gram)": {
+      "mean": 0.5352805130013625,
+      "median": 0.5131944445,
+      "p25": 0.3385,
+      "p75": 0.676745731,
+      "n": 734
+    },
+    "Moth": {
+      "mean": 0.4542545079166667,
+      "median": 0.4375454545,
+      "p25": 0.24916666675,
+      "p75": 0.64907342625,
+      "n": 108
+    },
+    "Niger seed": {
+      "mean": 0.42798147093157896,
+      "median": 0.359761905,
+      "p25": 0.22722692300000003,
+      "p75": 0.52925909125,
+      "n": 190
+    },
+    "Oilseeds total": {
+      "mean": 1.9955592676551726,
+      "median": 1.115294118,
+      "p25": 0.995,
+      "p75": 1.706923077,
+      "n": 29
+    },
+    "Onion": {
+      "mean": 13.45498027127293,
+      "median": 9.466666667,
+      "p25": 5.8088141025,
+      "p75": 16.14860723,
+      "n": 447
+    },
+    "Other  Rabi pulses": {
+      "mean": 0.7825842913813559,
+      "median": 0.7410101010000001,
+      "p25": 0.48818484025,
+      "p75": 0.92972222225,
+      "n": 354
+    },
+    "Other Cereals": {
+      "mean": 0.8495458645616437,
+      "median": 0.7785576925,
+      "p25": 0.52178571425,
+      "p75": 1.03854166675,
+      "n": 146
+    },
+    "Other Kharif pulses": {
+      "mean": 0.7050505264353562,
+      "median": 0.65,
+      "p25": 0.4436413045,
+      "p75": 0.9370833335,
+      "n": 379
+    },
+    "Other Summer Pulses": {
+      "mean": 0.8599253987000001,
+      "median": 0.6793750000000001,
+      "p25": 0.512105263,
+      "p75": 0.8075000000000001,
+      "n": 10
+    },
+    "Peas & beans (Pulses)": {
+      "mean": 1.3938954407669375,
+      "median": 0.934444444,
+      "p25": 0.688125,
+      "p75": 1.286410256,
+      "n": 369
+    },
+    "Potato": {
+      "mean": 13.352980467288674,
+      "median": 10.17875,
+      "p25": 7.237047619,
+      "p75": 15.87,
+      "n": 627
+    },
+    "Ragi": {
+      "mean": 1.2154082876767067,
+      "median": 1.0393333335000001,
+      "p25": 0.770892857,
+      "p75": 1.56673076925,
+      "n": 498
+    },
+    "Rapeseed &Mustard": {
+      "mean": 0.7915678563996212,
+      "median": 0.7381891025,
+      "p25": 0.46699999975,
+      "p75": 0.97179292925,
+      "n": 528
+    },
+    "Rice": {
+      "mean": 2.218494541018379,
+      "median": 2.203636364,
+      "p25": 1.634166667,
+      "p75": 2.73,
+      "n": 1197
+    },
+    "Safflower": {
+      "mean": 0.5688478594583334,
+      "median": 0.5573333335,
+      "p25": 0.36830357125,
+      "p75": 0.75216666675,
+      "n": 168
+    },
+    "Sannhamp": {
+      "mean": 1.3332901104379085,
+      "median": 0.47,
+      "p25": 0.255862069,
+      "p75": 1.528974359,
+      "n": 153
+    },
+    "Sesamum": {
+      "mean": 0.6126443203347953,
+      "median": 0.439,
+      "p25": 0.270394737,
+      "p75": 0.60659090875,
+      "n": 684
+    },
+    "Small millets": {
+      "mean": 0.7703103401900826,
+      "median": 0.7501923075,
+      "p25": 0.5060829954999999,
+      "p75": 0.97836956525,
+      "n": 484
+    },
+    "Soyabean": {
+      "mean": 1.0957531351304348,
+      "median": 1.013571429,
+      "p25": 0.818,
+      "p75": 1.335,
+      "n": 345
+    },
+    "Sugarcane": {
+      "mean": 51.727439411274375,
+      "median": 53.15815789,
+      "p25": 32.28931034,
+      "p75": 73.25,
+      "n": 605
+    },
+    "Sunflower": {
+      "mean": 0.9362093539386365,
+      "median": 0.845,
+      "p25": 0.569583333,
+      "p75": 1.199583333,
+      "n": 440
+    },
+    "Sweet potato": {
+      "mean": 9.413191268276119,
+      "median": 8.5316161615,
+      "p25": 5.42849715075,
+      "p75": 13.128660715,
+      "n": 268
+    },
+    "Tapioca": {
+      "mean": 16.75063799053,
+      "median": 11.137525255,
+      "p25": 7.076875,
+      "p75": 24.61,
+      "n": 200
+    },
+    "Tobacco": {
+      "mean": 2.122369787723757,
+      "median": 1.4028174605000001,
+      "p25": 0.65768181825,
+      "p75": 2.4158238635,
+      "n": 362
+    },
+    "Turmeric": {
+      "mean": 3.355261287895209,
+      "median": 2.021388889,
+      "p25": 1.01138494325,
+      "p75": 4.660535714,
+      "n": 334
+    },
+    "Urad": {
+      "mean": 0.5864479680013698,
+      "median": 0.57140625,
+      "p25": 0.379770115,
+      "p75": 0.727375,
+      "n": 730
+    },
+    "Wheat": {
+      "mean": 2.012471659184162,
+      "median": 1.673846154,
+      "p25": 1.26795,
+      "p75": 2.4865000000000004,
+      "n": 543
+    },
+    "other oilseeds": {
+      "mean": 1.8478833815327869,
+      "median": 0.63,
+      "p25": 0.5,
+      "p75": 1.0,
+      "n": 122
+    }
+  },
+  "hyperparameters": {
+    "pso_ann": {
+      "h1": 87,
+      "h2": 67,
+      "lr": 0.002012650588424959,
+      "alpha": 5.310221767524556e-06,
+      "activation": "relu",
+      "batch": 128
+    },
+    "baseline_ann": {
+      "h1": 100,
+      "h2": 0,
+      "activation": "relu",
+      "lr": 0.001,
+      "alpha": 0.0001,
+      "batch": 128
+    }
+  },
+  "interval": {
+    "level": 0.8,
+    "log_lower": -0.15173271555298576,
+    "log_upper": 0.16590187915167684,
+    "note": "empirical 10-90% residual band on the held-out test set"
+  },
+  "pso_settings": {
+    "particles": 15,
+    "iterations": 20,
+    "inertia": "0.9 -> 0.4 (linear)",
+    "c1": 1.5,
+    "c2": 1.5,
+    "fitness": "validation RMSE(log yield) + feature-count penalty"
+  }
+}
